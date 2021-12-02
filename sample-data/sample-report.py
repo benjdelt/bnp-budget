@@ -1,0 +1,1 @@
+sample_report = {'Nov 2021': {'expense_cents': -45500, 'income_cents': 8000, 'balance_cents': -37500}, 'Oct 2021': {'expense_cents': -66000, 'income_cents': 205000, 'balance_cents': 139000}, 'Sep 2021': {'expense_cents': -291222, 'income_cents': 200000, 'balance_cents': -91222}, 'Aug 2021': {'expense_cents': -143000, 'income_cents': 212000, 'balance_cents': 69000}}
