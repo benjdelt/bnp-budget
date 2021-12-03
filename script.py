@@ -13,6 +13,9 @@ HEADER_AMOUNT = "Montant"
 # Functions
 
 def monthify(datestr):
+    """Takes a string representing a date with DD/MM/YYYY format and returns a string containing the 3 letter
+        abreviation of the month and the year (e.g.: Nov 2021)
+    """
     months = [
         "Jan",
         "Feb",
@@ -33,7 +36,8 @@ def monthify(datestr):
 
 
 def update_report(report, row):
-    print(row[HEADER_DATE])
+    """Takes a report dictionary and a row of a CSV file and updates the report with the data from the row
+    """
     monthified = monthify(row[HEADER_DATE])
     if monthified not in report:
         report[monthified] = {
@@ -50,6 +54,9 @@ def update_report(report, row):
 
 
 def find_current_quarter(datestr):
+    """Takes a string representing a date with DD/MM/YYYY format and returns a string quarter and the year
+        (e.g.: Q3 2021)
+    """
     value = ""
     quarters = {
         "Q1": ["Jan", "Feb", "Mar"],
@@ -64,6 +71,7 @@ def find_current_quarter(datestr):
 
 
 def make_quaterly(report):
+    """Takes a monthly report and returns a quarterly report"""
     quarterly = {}
     for line in report:
         current_quarter = find_current_quarter(line)
@@ -80,11 +88,16 @@ def make_quaterly(report):
 
 
 def format_amount(amount_cents):
+    """Takes an int representing an amount in cents and returns a string of the amount in euros. Negative amounts are
+        between parentheses.
+    """
     amount = amount_cents / 100
     return f"({abs(amount):.2f})" if amount_cents < 0 else f"{amount:.2f}"
 
 
 def print_report(report):
+    """Format and prints a report dictionary to the stdout.
+    """
     for line in report:
         income = format_amount(report[line]['income_cents'])
         expenses = format_amount(report[line]['expense_cents'])
@@ -93,6 +106,7 @@ def print_report(report):
 
 
 # Execution
+
 if __name__ == "__main__":
     with open(FILE_NAME, "r") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=";")
