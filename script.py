@@ -117,50 +117,60 @@ if __name__ == "__main__":
         print_report(report)
         print("")
         print("Quaterly Report:")
-        print_report(make_quaterly(report))
-
+        quarterly = make_quaterly(report)
+        print_report(quarterly)
 
         # Figures
 
-        data_length = len(report)
+        monthly_data_length = len(report)
+        quarterly_data_length = len(quarterly)
 
-        labels = [line for line in report]
-        labels.reverse()
+        monthly_labels = [line for line in report]
+        monthly_labels.reverse()
         monthly_expenses = [abs(report[line]["expense_cents"] / 100) for line in report]
         monthly_expenses.reverse()
         monthly_incomes = [abs(report[line]["income_cents"] / 100) for line in report]
         monthly_incomes.reverse()
         monthly_balances = [report[line]["balance_cents"] / 100 for line in report]
         monthly_balances.reverse()
+        quarterly_labels = [line for line in quarterly]
+        quarterly_labels.reverse()
+        quarterly_expenses = [abs(quarterly[line]["expense_cents"] / 100) for line in quarterly]
+        quarterly_expenses.reverse()
+        quarterly_incomes = [abs(quarterly[line]["income_cents"] / 100) for line in quarterly]
+        quarterly_incomes.reverse()
+        quarterly_balances = [quarterly[line]["balance_cents"] / 100 for line in quarterly]
+        quarterly_balances.reverse()
 
-        ind = np.arange(data_length)
+        monthly_ind = np.arange(monthly_data_length)
+        quarterly_ind = np.arange(quarterly_data_length)
 
-        # Balances
+        # Monthly Balances
 
         width = 0.75
         fig, ax = plt.subplots()
 
-        p1 = ax.bar(labels, monthly_balances, width, color="mediumseagreen")
+        p1 = ax.bar(monthly_labels, monthly_balances, width, color="mediumseagreen")
 
         ax.axhline(0, color='grey', linewidth=0.8)
         ax.set_xlabel('Month')
         ax.set_ylabel('Amount')
-        ax.set_title('Balances')
-        ax.set_xticks(ind, labels=labels)
+        ax.set_title('Monthly Balances')
+        ax.set_xticks(monthly_ind, labels=monthly_labels)
         ax.bar_label(p1)
 
-        plt.savefig('balances.png')
+        plt.savefig('monthly-balances.png')
 
-        # Income and Expenses
+        # Monthly Income and Expenses
 
         fig2, bx = plt.subplots()
         width2 = 0.35
-        rects1 = bx.bar(ind - width2 / 2, monthly_incomes, width2, label='Income', color="mediumseagreen")
-        rects2 = bx.bar(ind + width2 / 2, monthly_expenses, width2, label='Expenses', color="salmon")
+        rects1 = bx.bar(monthly_ind - width2 / 2, monthly_incomes, width2, label='Income', color="mediumseagreen")
+        rects2 = bx.bar(monthly_ind + width2 / 2, monthly_expenses, width2, label='Expenses', color="salmon")
 
         bx.set_ylabel('Amount')
-        bx.set_title('Income and Expenses')
-        bx.set_xticks(ind, labels)
+        bx.set_title('Monthly Income and Expenses')
+        bx.set_xticks(monthly_ind, monthly_labels)
         bx.legend()
 
         bx.bar_label(rects1, padding=5)
@@ -168,7 +178,42 @@ if __name__ == "__main__":
 
         fig2.tight_layout()
 
-        plt.savefig('income-expenses.png')
+        plt.savefig('monthly-income-expenses.png')
+
+        # Quarterly Balances
+
+        width = 0.75
+        fig3, cx = plt.subplots()
+
+        p2 = cx.bar(quarterly_labels, quarterly_balances, width, color="mediumseagreen")
+
+        cx.axhline(0, color='grey', linewidth=0.8)
+        cx.set_xlabel('Quarter')
+        cx.set_ylabel('Amount')
+        cx.set_title('Quarterly Balances')
+        cx.set_xticks(quarterly_ind, labels=quarterly_labels)
+        cx.bar_label(p2)
+
+        plt.savefig('quarterly-balances.png')
+
+        # Quarterly Income and Expenses
+
+        fig4, dx = plt.subplots()
+        width3 = 0.35
+        rects3 = dx.bar(quarterly_ind - width3 / 2, quarterly_incomes, width2, label='Income', color="mediumseagreen")
+        rects4 = dx.bar(quarterly_ind + width3 / 2, quarterly_expenses, width2, label='Expenses', color="salmon")
+
+        dx.set_ylabel('Amount')
+        dx.set_title('Quarterly Income and Expenses')
+        dx.set_xticks(quarterly_ind, quarterly_labels)
+        dx.legend()
+
+        dx.bar_label(rects3, padding=5)
+        dx.bar_label(rects4, padding=5)
+
+        fig4.tight_layout()
+
+        plt.savefig('quarterly-income-expenses.png')
 
         # Show all figures
 
